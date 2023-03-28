@@ -1,4 +1,10 @@
-public class Person {
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
+
+public class Person implements Comparable<Person> {
     /*Задача 1
 
 Реализуйте в классе интерфейс Comparable<Person>, в котором "меньше" будет значить "младше".
@@ -16,6 +22,36 @@ public class Person {
     this.dateOfBirth = dateOfBirth;
   }
 
+
+  @Override
+  public int compareTo(Person o) {
+    int sep = dateOfBirth.lastIndexOf('.');
+    String year1 = dateOfBirth.substring(sep);
+    int sep2 = o.dateOfBirth.lastIndexOf('.');
+    String year2 = o.dateOfBirth.substring(sep);
+
+    if (!year1.equals(year2)) {
+      return year1.compareTo(year2);
+    }
+    return Integer.parseInt(dateOfBirth) - Integer.parseInt(o.dateOfBirth);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof Person other)) {
+      return false;
+    }
+    return compareTo(other) == 0;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, dateOfBirth);
+  }
+
   @Override
   public String toString() {
     return "Name: " + name + ", date of birthday: " + dateOfBirth;
@@ -28,4 +64,6 @@ public class Person {
   public String getName() {
     return name;
   }
+
+
 }
